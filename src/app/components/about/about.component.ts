@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { ActivatedRoute,Router } from '@angular/router';
+import { TeamService } from 'src/app/services/team.service';
 
 @Component({
   selector: 'app-about',
@@ -8,7 +10,15 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 })
 export class AboutComponent implements OnInit {
 
-  constructor() { }
+
+ teamMembers=[{
+  name :'',
+  designation:'',
+  about:'',
+  imageUrl:''
+  }]
+
+  constructor(private router:Router, private teamService: TeamService) { }
 
   
 // industry partner data
@@ -67,10 +77,16 @@ knwdgPartnersArray:any =[
     imgName:"https://i1.wp.com/ictkerala.org/wp-content/uploads/2018/12/ICFOSS-1.jpg?resize=150%2C150&ssl=1"
   }
 ]
-
-
   ngOnInit(): void {
+    this.teamService.getTeam().subscribe((data)=>{
+      this.teamMembers=JSON.parse(JSON.stringify(data));
+      
+    })
   }
+
+// onSelect(team: { name: any; }){
+//   this.router.navigate(['/about/team',team.name])
+// }
 
   // owl carosel options
   customOptions: OwlOptions = {
